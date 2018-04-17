@@ -7,3 +7,4 @@ C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\Exc
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.dll
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.pdb
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\bin\Debug\ExcelFile\Sample.xlsx
+C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.csprojResolveAssemblyReference.cache

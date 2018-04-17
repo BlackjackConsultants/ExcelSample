@@ -40,7 +40,7 @@ namespace ExcelExamples {
                 foreach (Row r in sheetData.Elements<Row>()) {
                     foreach (Cell c in r.Elements<Cell>()) {
                         c.CellValue.Text = c.CellValue.Text + " 111111111";
-                        ExcelHelper.SetCellBorder(c);
+                        ExcelHelper.SetCellBorder(worksheetPart, workbookPart, c);
                     }
                 }
                 spreadsheetDocument.Save();
