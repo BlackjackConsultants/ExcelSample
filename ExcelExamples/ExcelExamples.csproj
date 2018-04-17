@@ -59,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ExcelCellFormatting.cs" />
+    <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

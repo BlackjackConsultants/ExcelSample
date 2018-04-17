@@ -2,6 +2,7 @@
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using ExcelExamples.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExcelExamples {
@@ -24,6 +25,9 @@ namespace ExcelExamples {
             }
         }
 
+        /// <summary>
+        /// https://stackoverflow.com/questions/15791732/openxml-sdk-having-borders-for-cell?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        /// </summary>
         [TestMethod]
         public void ChangeCellBorder() {
             // Open the document for editing.
@@ -36,6 +40,7 @@ namespace ExcelExamples {
                 foreach (Row r in sheetData.Elements<Row>()) {
                     foreach (Cell c in r.Elements<Cell>()) {
                         c.CellValue.Text = c.CellValue.Text + " 111111111";
+                        ExcelHelper.SetCellBorder(c);
                     }
                 }
                 spreadsheetDocument.Save();
