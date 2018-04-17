@@ -36,7 +36,6 @@ namespace ExcelExamples {
                 WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
                 WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
                 SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-                string text;
                 foreach (Row r in sheetData.Elements<Row>()) {
                     foreach (Cell c in r.Elements<Cell>()) {
                         c.CellValue.Text = c.CellValue.Text + " 111111111";
