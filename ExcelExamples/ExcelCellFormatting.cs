@@ -11,23 +11,6 @@ namespace ExcelExamples {
     [TestClass]
     public class ExcelCellFormatting {
         [TestMethod]
-        public void ChangeBorderColor() {
-            // Open the document for editing.
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", false)) {
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-                string text;
-                foreach (Row r in sheetData.Elements<Row>()) {
-                    foreach (Cell c in r.Elements<Cell>()) {
-                        text = c.CellValue.Text;
-                        Console.Write(text + " 111111111");
-                    }
-                }
-            }
-        }
-
-        [TestMethod]
         public void ChangeCellColor() {
             using (SpreadsheetDocument xl = SpreadsheetDocument.Create("output.xlsx", SpreadsheetDocumentType.Workbook)) {
                 WorkbookPart wbp = xl.AddWorkbookPart();
@@ -36,13 +19,13 @@ namespace ExcelExamples {
                 FileVersion fv = new FileVersion();
                 fv.ApplicationName = "Microsoft Office Excel";
 
-                Worksheet ws = new Worksheet();
-                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
                 // add styles to sheet
+                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
                 wbsp.Stylesheet = CreateStylesheet();
                 wbsp.Stylesheet.Save();
 
                 // generate rows
+                Worksheet ws = new Worksheet();
                 SheetData sd = CreateSheetData();
                 ws.Append(sd);
                 wsp.Worksheet = ws;
@@ -62,7 +45,42 @@ namespace ExcelExamples {
             }
         }
 
-        public SheetData CreateSheetData() {
+        [TestMethod]
+        public void ChangeCellColorWithHelper(){
+            Color color = new Color();
+            ExcelHelper eh = new ExcelHelper("output.xlsx");
+            eh.ColorCell(color, "A1");
+        }
+        
+        [TestMethod]
+        public void ChangeCellValueAndSave() {
+            // Open the document for editing.
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", true)) {
+                // Code removed here.
+                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+                string text;
+                foreach (Row r in sheetData.Elements<Row>()) {
+                    foreach (Cell c in r.Elements<Cell>()) {
+                        c.CellValue.Text = c.CellValue.Text + " 111111111";
+                    }
+                }
+                spreadsheetDocument.Save();
+            }
+        }
+
+        [TestMethod]
+        public void LoadExcelFile() {
+            // Open the document for editing.
+            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", false)) {
+                // Code removed here.
+                Assert.IsNotNull(spreadsheetDocument);
+            }
+        }
+
+        #region Private Methods
+        private SheetData CreateSheetData() {
             SheetData sheetData1 = new SheetData();
             Row row1 = new Row() { RowIndex = (UInt32Value)1U, Spans = new ListValue<StringValue>() { InnerText = "1:3" }, DyDescent = 0.25D };
             Cell cell1 = new Cell() { CellReference = "A1", StyleIndex = 1 };
@@ -85,8 +103,7 @@ namespace ExcelExamples {
 
             return sheetData1;
         }
-
-        public Stylesheet CreateStylesheet() {
+        private Stylesheet CreateStylesheet() {
             Stylesheet stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
             stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
             stylesheet1.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
@@ -214,32 +231,6 @@ namespace ExcelExamples {
             stylesheet1.Append(stylesheetExtensionList1);
             return stylesheet1;
         }
-
-        [TestMethod]
-        public void ChangeCellValueAndSave() {
-            // Open the document for editing.
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", true)) {
-                // Code removed here.
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-                string text;
-                foreach (Row r in sheetData.Elements<Row>()) {
-                    foreach (Cell c in r.Elements<Cell>()) {
-                        c.CellValue.Text = c.CellValue.Text + " 111111111";
-                    }
-                }
-                spreadsheetDocument.Save();
-            }
-        }
-
-        [TestMethod]
-        public void LoadExcelFile() {
-            // Open the document for editing.
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", false)) {
-                // Code removed here.
-                Assert.IsNotNull(spreadsheetDocument);
-            }
-        }
+        #endregion
     }
 }
