@@ -64,22 +64,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ExcelFileExtract\Sample\xl\_rels\workbook.xml.rels" />
-    <None Include="ExcelFileExtract\Sample\_rels\.rels" />
+    <None Include="ExcelFileExtract\sample.xlsx" />
     <None Include="ExcelFile\Sample.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ExcelFileExtract\Sample\docProps\app.xml" />
-    <Content Include="ExcelFileExtract\Sample\docProps\core.xml" />
-    <Content Include="ExcelFileExtract\Sample\xl\sharedStrings.xml" />
-    <Content Include="ExcelFileExtract\Sample\xl\styles.xml" />
-    <Content Include="ExcelFileExtract\Sample\xl\theme\theme1.xml" />
-    <Content Include="ExcelFileExtract\Sample\xl\workbook.xml" />
-    <Content Include="ExcelFileExtract\Sample\xl\worksheets\sheet1.xml" />
-    <Content Include="ExcelFileExtract\Sample\[Content_Types].xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
