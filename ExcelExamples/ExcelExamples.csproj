@@ -61,14 +61,29 @@
     <Compile Include="ExcelCellFormattingWithoutDOM.cs" />
     <Compile Include="ExcelCellFormatting.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ExcelFileExtract\sample.xlsx" />
+    <None Include="ExcelFileExtract\sampleBackup.xlsx" />
+    <None Include="ExcelFileExtract\sample\sample.xlsx" />
+    <None Include="ExcelFileExtract\sample\xl\_rels\workbook.xml.rels" />
+    <None Include="ExcelFileExtract\sample\_rels\.rels" />
     <None Include="ExcelFile\Sample.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExcelFileExtract\sample\docProps\app.xml" />
+    <Content Include="ExcelFileExtract\sample\docProps\core.xml" />
+    <Content Include="ExcelFileExtract\sample\xl\sharedStrings.xml" />
+    <Content Include="ExcelFileExtract\sample\xl\styles.xml" />
+    <Content Include="ExcelFileExtract\sample\xl\theme\theme1.xml" />
+    <Content Include="ExcelFileExtract\sample\xl\workbook.xml" />
+    <Content Include="ExcelFileExtract\sample\xl\worksheets\sheet1.xml" />
+    <Content Include="ExcelFileExtract\sample\[Content_Types].xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
