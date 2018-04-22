@@ -44,14 +44,7 @@ namespace ExcelExamples {
                 xl.Close();
             }
         }
-
-        [TestMethod]
-        public void ChangeCellColorWithHelper(){
-            Color color = new Color();
-            ExcelHelper eh = new ExcelHelper("output.xlsx");
-            eh.ColorCell(color, "A1");
-        }
-        
+       
         [TestMethod]
         public void ChangeCellValueAndSave() {
             // Open the document for editing.

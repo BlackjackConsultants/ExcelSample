@@ -14,26 +14,10 @@ namespace ExcelExamples {
     public class ExcelCellFormattingWithoutDOM {
         [TestMethod]
         public void ChangeCellColor() {
+            string zipFileName = @"ExcelFileExtract\sample.xlsx";
+            using (Package package = Package.Open(zipFileName, FileMode.Open)) {
 
-            string zipFileName = @"test.zip";
-
-            using (Package package = ZipPackage.Open(zipFileName, FileMode.Create)) {
-                string startFolder = @"ExcelFileExtract\Sample";
-
-                foreach (string currentFile in Directory.GetFiles(startFolder, "*.*", SearchOption.AllDirectories)) {
-                    System.Diagnostics.Debug.WriteLine("------------------------------------------------------------------------------------------------------------");
-                    System.Diagnostics.Debug.WriteLine("Packing " + currentFile);
-                    Uri relUri = PackageHelper.GetRelativeUri(currentFile);
-
-                    PackagePart packagePart = package.CreatePart(relUri, System.Net.Mime.MediaTypeNames.Application.Octet, CompressionOption.Maximum);
-                    using (FileStream fileStream = new FileStream(currentFile, FileMode.Open, FileAccess.Read)) {
-                        if (packagePart != null)
-                            PackageHelper.CopyStream(fileStream, packagePart.GetStream());
-                    }
-                    System.Diagnostics.Debug.WriteLine("PackagePart Uri: " + packagePart.Uri);
-                }
             }
-
             Assert.IsTrue(File.Exists(zipFileName));
         }
     }
