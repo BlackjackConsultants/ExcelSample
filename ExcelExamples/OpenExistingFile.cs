@@ -31,34 +31,42 @@ namespace ExcelExamples {
 
         private void OpenAndAddToSpreadsheetStream(Stream stream) {
             // Open a SpreadsheetDocument based on a stream.
-            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, true);
+            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, false);
 
             // Add a new worksheet.
-            WorksheetPart newWorksheetPart = spreadsheetDocument.WorkbookPart.AddNewPart<WorksheetPart>();
-            newWorksheetPart.Worksheet = new Worksheet(new SheetData());
-            newWorksheetPart.Worksheet.Save();
+            WorksheetPart worksheetPart = spreadsheetDocument.WorkbookPart.WorksheetParts.FirstOrDefault();
+            Assert.IsNotNull(worksheetPart);
+            Worksheet sheet = worksheetPart.Worksheet;
 
-            Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>();
-            string relationshipId = spreadsheetDocument.WorkbookPart.GetIdOfPart(newWorksheetPart);
+            var cells = sheet.Descendants<Cell>();
+            var rows = sheet.Descendants<Row>();
 
-            // Get a unique ID for the new worksheet.
-            uint sheetId = 1;
-            if (sheets.Elements<Sheet>().Count() > 0) {
-                sheetId = sheets.Elements<Sheet>().Select(s => s.SheetId.Value).Max() + 1;
+            Console.WriteLine("Row count = {0}", rows.LongCount());
+            Console.WriteLine("Cell count = {0}", cells.LongCount());
+
+            // One way: go through each cell in the sheet
+            foreach (Cell cell in cells) {
+                if ((cell.DataType != null) && (cell.DataType == CellValues.SharedString)) {
+                    int ssid = int.Parse(cell.CellValue.Text);
+                    string str = sst.ChildElements[ssid].InnerText;
+                    Console.WriteLine("Shared string {0}: {1}", ssid, str);
+                } else if (cell.CellValue != null) {
+                    Console.WriteLine("Cell contents: {0}", cell.CellValue.Text);
+                }
             }
 
-            // Give the new worksheet a name.
-            string sheetName = "Sheet" + sheetId;
-
-            // Append the new worksheet and associate it with the workbook.
-            Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetName };
-            sheets.Append(sheet);
-            spreadsheetDocument.WorkbookPart.Workbook.Save();
-
-            // Close the document handle.
-            spreadsheetDocument.Close();
-
-            // Caller must close the stream.
+            // Or... via each row
+            foreach (Row row in rows) {
+                foreach (Cell c in row.Elements<Cell>()) {
+                    if ((c.DataType != null) && (c.DataType == CellValues.SharedString)) {
+                        int ssid = int.Parse(c.CellValue.Text);
+                        string str = sst.ChildElements[ssid].InnerText;
+                        Console.WriteLine("Shared string {0}: {1}", ssid, str);
+                    } else if (c.CellValue != null) {
+                        Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
+                    }
+                }
+            }
         }
 
     }
