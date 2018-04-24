@@ -63,15 +63,6 @@ namespace ExcelExamples {
             }
         }
 
-        [TestMethod]
-        public void LoadExcelFile() {
-            // Open the document for editing.
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", false)) {
-                // Code removed here.
-                Assert.IsNotNull(spreadsheetDocument);
-            }
-        }
-
         #region Private Methods
         private SheetData CreateSheetData() {
             SheetData sheetData1 = new SheetData();

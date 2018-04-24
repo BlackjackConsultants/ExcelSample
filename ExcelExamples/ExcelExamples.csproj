@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OpenExistingFile.cs" />
     <Compile Include="ExcelCellFormattingWithoutDOM.cs" />
     <Compile Include="ExcelCellFormatting.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
@@ -65,14 +66,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ExcelFileExtract\sample.xlsx" />
-    <None Include="ExcelFileExtract\sampleBackup.xlsx" />
+    <None Include="ExcelFileExtract\sample.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ExcelFile\sampleBackup.xlsx" />
     <None Include="ExcelFileExtract\sample\sample.xlsx" />
     <None Include="ExcelFileExtract\sample\xl\_rels\workbook.xml.rels" />
     <None Include="ExcelFileExtract\sample\_rels\.rels" />
-    <None Include="ExcelFile\Sample.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
