@@ -63,6 +63,10 @@ namespace ExcelExamples {
             }
         }
 
+        public void GetCellValueFromCellReference(){
+            
+        }
+
         #region Private Methods
         private SheetData CreateSheetData() {
             SheetData sheetData1 = new SheetData();

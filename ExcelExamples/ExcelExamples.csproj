@@ -58,10 +58,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="OpenExistingFile.cs" />
     <Compile Include="ExcelCellFormattingWithoutDOM.cs" />
     <Compile Include="ExcelCellFormatting.cs" />
-    <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Helpers\ExcelXmlHelper.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
