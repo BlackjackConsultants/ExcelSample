@@ -9,41 +9,7 @@ using X14 = DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace ExcelExamples {
     [TestClass]
-    public class ExcelCellFormatting {
-        [TestMethod]
-        public void ChangeCellColor() {
-            using (SpreadsheetDocument xl = SpreadsheetDocument.Create("output.xlsx", SpreadsheetDocumentType.Workbook)) {
-                WorkbookPart wbp = xl.AddWorkbookPart();
-                WorksheetPart wsp = wbp.AddNewPart<WorksheetPart>();
-                Workbook wb = new Workbook();
-                FileVersion fv = new FileVersion();
-                fv.ApplicationName = "Microsoft Office Excel";
-
-                // add styles to sheet
-                WorkbookStylesPart wbsp = wbp.AddNewPart<WorkbookStylesPart>();
-                wbsp.Stylesheet = CreateStylesheet();
-                wbsp.Stylesheet.Save();
-
-                // generate rows
-                Worksheet ws = new Worksheet();
-                SheetData sd = CreateSheetData();
-                ws.Append(sd);
-                wsp.Worksheet = ws;
-                wsp.Worksheet.Save();
-                Sheets sheets = new Sheets();
-                Sheet sheet = new Sheet();
-                sheet.Name = "Sheet1";
-                sheet.SheetId = 1;
-                sheet.Id = wbp.GetIdOfPart(wsp);
-                sheets.Append(sheet);
-                wb.Append(fv);
-                wb.Append(sheets);
-
-                xl.WorkbookPart.Workbook = wb;
-                xl.WorkbookPart.Workbook.Save();
-                xl.Close();
-            }
-        }
+    public class ExcelSheetManipulation {
        
         [TestMethod]
         public void ChangeCellValueAndSave() {
@@ -63,8 +29,12 @@ namespace ExcelExamples {
             }
         }
 
+        [TestMethod]
         public void GetCellValueFromCellReference(){
-            
+            var stream = ExcelHelper.LoadSpreadSheet("ExcelFileExtract\\test.xlsx", true);
+            SheetData sheet = ExcelHelper.GetSheetData(stream, "testing");
+            string value = ExcelHelper.GetCellValue<string>(sheet, "A1");
+            Assert.IsNotNull(value);
         }
 
         #region Private Methods

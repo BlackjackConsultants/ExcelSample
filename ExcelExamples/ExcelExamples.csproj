@@ -61,13 +61,13 @@
     <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="OpenExistingFile.cs" />
     <Compile Include="ExcelCellFormattingWithoutDOM.cs" />
-    <Compile Include="ExcelCellFormatting.cs" />
+    <Compile Include="ExcelSheetManipulation.cs" />
     <Compile Include="Helpers\ExcelXmlHelper.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ExcelFileExtract\sample.xlsx">
+    <None Include="ExcelFileExtract\test.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ExcelFile\sampleBackup.xlsx" />
