@@ -32,9 +32,9 @@ namespace ExcelExamples {
         [TestMethod]
         public void GetCellValueFromCellReference(){
             var stream = ExcelHelper.LoadSpreadSheet("ExcelFileExtract\\test.xlsx", true);
-            SheetData sheet = ExcelHelper.GetSheetData(stream, "testing");
-            string value = ExcelHelper.GetCellValue<string>(sheet, "A1");
-            Assert.IsNotNull(value);
+            //SheetData sheet = ExcelHelper.GetSheetData(stream, "testing");
+            string value = ExcelHelper.GetCellValue(stream, "testing", "A1");
+            Assert.AreEqual(value, "sssd");
         }
 
         #region Private Methods
