@@ -12,24 +12,6 @@ namespace ExcelExamples {
     public class ExcelSheetManipulation {
        
         [TestMethod]
-        public void ChangeCellValueAndSave() {
-            // Open the document for editing.
-            using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open("ExcelFile\\Sample.xlsx", true)) {
-                // Code removed here.
-                WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-                string text;
-                foreach (Row r in sheetData.Elements<Row>()) {
-                    foreach (Cell c in r.Elements<Cell>()) {
-                        c.CellValue.Text = c.CellValue.Text + " 111111111";
-                    }
-                }
-                spreadsheetDocument.Save();
-            }
-        }
-
-        [TestMethod]
         public void GetCellValueFromCellReference(){
             var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
             string value1 = ExcelHelper.GetCellValue(spreadSheetDocument, "testing", "A1");
@@ -39,7 +21,7 @@ namespace ExcelExamples {
         }
 
         [TestMethod]
-        public void StyleIndexChecks () {
+        public void CellIsHighlightedTest() {
             var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
             var value1 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "A1", 1);
             Assert.IsTrue(value1);
@@ -48,7 +30,7 @@ namespace ExcelExamples {
         }
 
         [TestMethod]
-        public void Highlight() {
+        public void HighlightCell() {
             var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
             var value1 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "A1", 1);
             Assert.IsTrue(value1);
