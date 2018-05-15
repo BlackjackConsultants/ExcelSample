@@ -32,8 +32,10 @@ namespace ExcelExamples {
         [TestMethod]
         public void GetCellValueFromCellReference(){
             var stream = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
-            string value = ExcelHelper.GetCellValue(stream, "testing", "A1");
-            Assert.AreEqual(value, "sssd");
+            string value1 = ExcelHelper.GetCellValue(stream, "testing", "A1");
+            Assert.AreEqual(value1, "sssd");
+            string value2 = ExcelHelper.GetCellValue(stream, "testing", "B2");
+            Assert.AreEqual(value2, "fdfdf");
         }
 
         #region Private Methods

@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ExcelExamples.Extension;
 
 namespace ExcelExamples.Helpers {
 
@@ -71,12 +72,12 @@ namespace ExcelExamples.Helpers {
             var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
             WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
             string cellValue = string.Empty;
-            string cellRefLetter = cellReference;
-            string cellRefNumber = cellReference;
+            string cellRefLetter = cellReference.Substring(0, cellReference.FirstDigitIndex());
+            uint cellRefNumber = cellReference.GetNumericValue();
 
             if (wsPart != null) {
                 Worksheet worksheet = wsPart.Worksheet;
-                Cell cell = GetCell(worksheet, "A", 1);
+                Cell cell = GetCell(worksheet, cellRefLetter, cellRefNumber);
                 if (cell.DataType != null) {
                     if (cell.DataType == CellValues.SharedString) {
                         int id = -1;
