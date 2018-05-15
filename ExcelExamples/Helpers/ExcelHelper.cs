@@ -42,7 +42,7 @@ namespace ExcelExamples.Helpers {
 
 
         /// <summary>
-        /// returns true if the cell is highlighted.
+        /// associates an existing style to the cell.
         /// </summary>
         /// <param name="spreadsheetDocument"></param>
         /// <param name="sheetName"></param>
@@ -62,6 +62,29 @@ namespace ExcelExamples.Helpers {
             }
         }
 
+        /// <summary>
+        /// returns the cell value from spreadsheet.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="sheetName"></param>
+        /// <param name="cellReference"></param>
+        /// <returns></returns>
+        public static int GetCellStyleIndex(SpreadsheetDocument spreadsheetDocument, string sheetName, string cellReference) {
+            var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
+            WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
+            string cellValue = string.Empty;
+            string cellRefLetter = cellReference.Substring(0, cellReference.FirstDigitIndex());
+            uint cellRefNumber = cellReference.GetNumericValue();
+
+            if (wsPart != null) {
+                Worksheet worksheet = wsPart.Worksheet;
+                Cell cell = GetCell(worksheet, cellRefLetter, cellRefNumber);
+                if (cell.DataType != null) {
+                    return int.Parse(cell.StyleIndex);
+                }
+            }
+            return 0;
+        }
 
         /// <summary>
         /// returns the cell value from stream.

@@ -10,9 +10,9 @@ using X14 = DocumentFormat.OpenXml.Office2010.Excel;
 namespace ExcelExamples {
     [TestClass]
     public class ExcelSheetManipulation {
-       
+
         [TestMethod]
-        public void GetCellValueFromCellReference(){
+        public void GetCellValueFromCellReference() {
             var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
             string value1 = ExcelHelper.GetCellValue(spreadSheetDocument, "testing", "A1");
             Assert.AreEqual(value1, "sssd");
