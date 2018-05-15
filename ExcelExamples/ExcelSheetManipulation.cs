@@ -47,6 +47,16 @@ namespace ExcelExamples {
             Assert.IsTrue(value2);
         }
 
+        [TestMethod]
+        public void Highlight() {
+            var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
+            var value1 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "A1", 1);
+            Assert.IsTrue(value1);
+            ExcelHelper.HighlightCell(spreadSheetDocument, "testing", "B1", 2);
+            var value2 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "B1", 2);
+            Assert.IsTrue(value2);
+        }
+
         #region Private Methods
         private SheetData CreateSheetData() {
             SheetData sheetData1 = new SheetData();

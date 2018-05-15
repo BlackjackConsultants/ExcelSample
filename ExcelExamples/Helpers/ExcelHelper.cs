@@ -40,6 +40,29 @@ namespace ExcelExamples.Helpers {
             return false;
         }
 
+
+        /// <summary>
+        /// returns true if the cell is highlighted.
+        /// </summary>
+        /// <param name="spreadsheetDocument"></param>
+        /// <param name="sheetName"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static void HighlightCell(SpreadsheetDocument spreadsheetDocument, string sheetName, string cellReference, uint withIndex) {
+            var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
+            WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
+            string cellValue = string.Empty;
+            string cellRefLetter = cellReference.Substring(0, cellReference.FirstDigitIndex());
+            uint cellRefNumber = cellReference.GetNumericValue();
+
+            if (wsPart != null) {
+                Worksheet worksheet = wsPart.Worksheet;
+                Cell cell = GetCell(worksheet, cellRefLetter, cellRefNumber);
+                cell.StyleIndex.Value = withIndex;
+            }
+        }
+
+
         /// <summary>
         /// returns the cell value from stream.
         /// </summary>
