@@ -31,8 +31,7 @@ namespace ExcelExamples {
 
         [TestMethod]
         public void GetCellValueFromCellReference(){
-            var stream = ExcelHelper.LoadSpreadSheet("ExcelFileExtract\\test.xlsx", true);
-            //SheetData sheet = ExcelHelper.GetSheetData(stream, "testing");
+            var stream = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
             string value = ExcelHelper.GetCellValue(stream, "testing", "A1");
             Assert.AreEqual(value, "sssd");
         }

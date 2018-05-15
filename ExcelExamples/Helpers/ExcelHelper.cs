@@ -37,36 +37,19 @@ namespace ExcelExamples.Helpers {
         }
 
         /// <summary>
-        /// loads a spreadsheet file.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="isEditable"></param>
-        /// <returns></returns>
-        public static Stream LoadSpreadSheet(string filename, bool isEditable) {
-            Stream stream = File.Open(filename, FileMode.Open);
-            return stream;
-        }
-
-        /// <summary>
-        /// gets a sheet data.
+        /// returns the cell value from stream.
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="sheetName"></param>
+        /// <param name="cellReference"></param>
         /// <returns></returns>
-        public static SheetData GetSheetData(Stream stream, string sheetName) {
-            // Open a SpreadsheetDocument based on a stream.
-            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, false);
-            var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
-            WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
-
-            if (wsPart != null) {
-                return wsPart.Worksheet.GetFirstChild<SheetData>();
-            }
-            return null;
+        public static string GetCellValue(string filename, string sheetName, string cellReference) {
+            Stream stream = File.Open(filename, FileMode.Open);
+            return GetCellValue(stream, sheetName, cellReference);
         }
-        
+
         /// <summary>
-        /// returns the cell value.
+        /// returns the cell value from stream.
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="sheetName"></param>
@@ -74,9 +57,22 @@ namespace ExcelExamples.Helpers {
         /// <returns></returns>
         public static string GetCellValue(Stream stream, string sheetName, string cellReference) {
             SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, false);
+            return GetCellValue(spreadsheetDocument, sheetName, cellReference);
+        }
+
+        /// <summary>
+        /// returns the cell value from spreadsheet.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="sheetName"></param>
+        /// <param name="cellReference"></param>
+        /// <returns></returns>
+        public static string GetCellValue(SpreadsheetDocument spreadsheetDocument, string sheetName, string cellReference) {
             var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
             WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
             string cellValue = string.Empty;
+            string cellRefLetter = cellReference;
+            string cellRefNumber = cellReference;
 
             if (wsPart != null) {
                 Worksheet worksheet = wsPart.Worksheet;
@@ -102,6 +98,12 @@ namespace ExcelExamples.Helpers {
             return cellValue;
         }
 
+        public static SpreadsheetDocument LoadSpreadSheetDocument(string filename, bool isEditable) {
+            Stream stream = File.Open(filename, FileMode.Open);
+            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, isEditable);
+            return spreadsheetDocument;
+        }
+
         private static Cell GetCell(Worksheet worksheet, string columnName, uint rowIndex) {
             Row row = GetRow(worksheet, rowIndex);
 
@@ -118,7 +120,7 @@ namespace ExcelExamples.Helpers {
                   Elements<Row>().Where(r => r.RowIndex == rowIndex).First();
         }
 
-        public static SharedStringItem GetSharedStringItemById(WorkbookPart workbookPart, int id) {
+        private static SharedStringItem GetSharedStringItemById(WorkbookPart workbookPart, int id) {
             return workbookPart.SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ElementAt(id);
         }
     }
