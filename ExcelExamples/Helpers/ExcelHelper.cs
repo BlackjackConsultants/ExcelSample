@@ -25,14 +25,17 @@ namespace ExcelExamples.Helpers {
         /// <param name="sheetName"></param>
         /// <param name="range"></param>
         /// <returns></returns>
-        public static bool CellIsHighlighted(SpreadsheetDocument spreadsheetDocument, string sheetName, string range) {
-            WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
-            WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-            SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().FirstOrDefault(n => n.LocalName == sheetName);
-            if (sheetData != null) {
-                var cell = sheetData.Elements<Cell>().FirstOrDefault(c => c.CellReference == range);
-                if (cell != null)
-                    return cell.StyleIndex != 0;
+        public static bool CellIsHighlighted(SpreadsheetDocument spreadsheetDocument, string sheetName, string cellReference, int withIndex) {
+            var sheet = spreadsheetDocument.WorkbookPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
+            WorksheetPart wsPart = spreadsheetDocument.WorkbookPart.GetPartById(sheet.Id) as WorksheetPart;
+            string cellValue = string.Empty;
+            string cellRefLetter = cellReference.Substring(0, cellReference.FirstDigitIndex());
+            uint cellRefNumber = cellReference.GetNumericValue();
+
+            if (wsPart != null) {
+                Worksheet worksheet = wsPart.Worksheet;
+                Cell cell = GetCell(worksheet, cellRefLetter, cellRefNumber);
+                return withIndex == cell.StyleIndex;
             }
             return false;
         }
@@ -99,6 +102,12 @@ namespace ExcelExamples.Helpers {
             return cellValue;
         }
 
+        /// <summary>
+        /// loads a spreadsheetdocument.  use this so that you dont have to load streams each time. is faster.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="isEditable"></param>
+        /// <returns></returns>
         public static SpreadsheetDocument LoadSpreadSheetDocument(string filename, bool isEditable) {
             Stream stream = File.Open(filename, FileMode.Open);
             SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, isEditable);

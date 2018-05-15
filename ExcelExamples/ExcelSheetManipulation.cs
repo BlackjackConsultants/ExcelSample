@@ -31,11 +31,20 @@ namespace ExcelExamples {
 
         [TestMethod]
         public void GetCellValueFromCellReference(){
-            var stream = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
-            string value1 = ExcelHelper.GetCellValue(stream, "testing", "A1");
+            var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
+            string value1 = ExcelHelper.GetCellValue(spreadSheetDocument, "testing", "A1");
             Assert.AreEqual(value1, "sssd");
-            string value2 = ExcelHelper.GetCellValue(stream, "testing", "B2");
+            string value2 = ExcelHelper.GetCellValue(spreadSheetDocument, "testing", "B2");
             Assert.AreEqual(value2, "fdfdf");
+        }
+
+        [TestMethod]
+        public void StyleIndexChecks () {
+            var spreadSheetDocument = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
+            var value1 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "A1", 1);
+            Assert.IsTrue(value1);
+            var value2 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "B1", 2);
+            Assert.IsTrue(value2);
         }
 
         #region Private Methods
