@@ -43,11 +43,24 @@ namespace ExcelExamples {
         [TestMethod]
         public void CreateStyleAndAssociateIt() {
             var doc = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
-            int sc = ExcelHelper.GetStyleCount(doc);
-            Assert.AreEqual(sc, 1);
-            ExcelHelper.AddStyle(doc, 14, "Arial", "FFFFFFFF", "00000000", "22222222", 0, 0, 0);
-            int sc2 = ExcelHelper.GetStyleCount(doc);
-            Assert.AreEqual(sc2, 2);
+            var stylesSheet = doc.WorkbookPart.WorkbookStylesPart.Stylesheet;
+            // add font
+            var f1 = ExcelHelper.AddFontStyle(doc, 14, "Arial", "FFFFFFF0");
+            var f2 = ExcelHelper.AddFontStyle(doc, 12, "Arial", "F0F0F0F0");
+            Assert.AreNotEqual(f1, f2);
+            // add fill
+            var fill1 = ExcelHelper.AddFillStyle(doc, "F0F00000", "F0F00000");
+            var fill2 = ExcelHelper.AddFillStyle(doc, "1010AAAA", "FFF000AA");
+            Assert.AreNotEqual(fill1, fill2);
+            // add border
+            var b1 = ExcelHelper.AddBorderStyle(doc);
+            var b2 = ExcelHelper.AddBorderStyle(doc);
+            Assert.AreNotEqual(b1, b2);
+            // add cellformat
+            var c1 = ExcelHelper.AddCellFormatStyle(doc, 0, 0, 0);
+            var c2 = ExcelHelper.AddCellFormatStyle(doc, 1, 1, 1);
+            Assert.AreNotEqual(c1, c2);
+            stylesSheet.Save();
         }
     }
 }

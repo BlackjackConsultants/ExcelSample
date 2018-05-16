@@ -40,17 +40,18 @@ namespace ExcelExamples.Helpers {
             return false;
         }
 
-        public static int AddStyle(SpreadsheetDocument spreadsheetDocument, int fontSize, string fontName, string fontColor, string fillBackgroundColorName, string fillForeColorName, int fontId, int fillId, int borderId) {
+        public static int AddFontStyle(SpreadsheetDocument spreadsheetDocument, int fontSize, string fontName, string fontColor) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
-            var styleCount = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet.CellStyles.Count.Value;
-            // font
-            var font = new Font(                                                               // Index 0 - The default font.
+            var font = new Font(
                 new FontSize() { Val = fontSize },
                 new Color() { Rgb = new HexBinaryValue() { Value = fontColor } },
                 new FontName() { Val = fontName });
             styleSheet.Fonts.Append(font);
+            return Convert.ToInt32(styleSheet.Fonts.Elements<Font>().ToList().Count);
+        }
 
-            // fill
+        public static int AddFillStyle(SpreadsheetDocument spreadsheetDocument, string fillBackgroundColorName, string fillForeColorName) {
+            var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
             var fillForegroundColor = new ForegroundColor() { Rgb = new HexBinaryValue() { Value = fillForeColorName } };
             var fillBackgroundColor = new BackgroundColor() { Rgb = new HexBinaryValue() { Value = fillBackgroundColorName } };
             var fill = new Fill(new PatternFill() {
@@ -59,28 +60,21 @@ namespace ExcelExamples.Helpers {
                 ForegroundColor = fillForegroundColor
             });
             styleSheet.Fills.Append(fill);
-            var fid = styleSheet.Fills.Count;
-
-            // borders
-            var border = new Border(new LeftBorder(), new RightBorder(), new TopBorder(), new BottomBorder(), new DiagonalBorder());
-            styleSheet.Borders.Append(border);
-
-            // cellFormats
-            var cellFormat = new CellFormat() { FontId = Convert.ToUInt32(fontId), FillId = Convert.ToUInt32(fillId), BorderId = Convert.ToUInt32(borderId) };
-            styleSheet.CellFormats.Append(cellFormat);
-
-            // cellStyle
-            var cellStyle = new CellStyle() { Name = "test", BuiltinId = styleCount + 1,  };
-            styleSheet.CellStyles.Append(cellStyle);
-
-            // save styles
-            styleSheet.Save();
-            return Convert.ToInt32(styleCount+1);
+            return Convert.ToInt32(styleSheet.Fills.Elements<Fill>().ToList().Count);
         }
 
-        public static int GetStyleCount(SpreadsheetDocument spreadsheetDocument) {
+        public static int AddBorderStyle(SpreadsheetDocument spreadsheetDocument) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
-            return Convert.ToInt32(styleSheet.CellStyles.Count.Value);
+            var border = new Border(new LeftBorder(), new RightBorder(), new TopBorder(), new BottomBorder(), new DiagonalBorder());
+            styleSheet.Borders.Append(border);
+            return Convert.ToInt32(styleSheet.Borders.Elements<Border>().ToList().Count);
+        }
+
+        public static int AddCellFormatStyle(SpreadsheetDocument spreadsheetDocument, int fontId, int fillId, int borderId) {
+            var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
+            var cellFormat = new CellFormat() { FontId = Convert.ToUInt32(fontId), FillId = Convert.ToUInt32(fillId), BorderId = Convert.ToUInt32(borderId) };
+            styleSheet.CellFormats.Append(cellFormat);
+            return Convert.ToInt32(styleSheet.CellFormats.Elements<CellFormat>().ToList().Count);
         }
 
         private static Stylesheet GenerateStyleSheet(int fontSize, string fontName, string fontColor, string fillBackgroundColorName, string fillForeColorName) {
