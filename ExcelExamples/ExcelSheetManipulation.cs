@@ -43,6 +43,13 @@ namespace ExcelExamples {
         [TestMethod]
         public void CreateStyleAndAssociateIt() {
             var doc = ExcelHelper.CreateNewSpreadSheetDocument("output.xlsx", true);
+            doc.AddWorkbookPart();
+            doc.WorkbookPart.Workbook = new Workbook();
+            var wsPart = doc.WorkbookPart.AddNewPart<WorksheetPart>();
+            wsPart.Worksheet = new Worksheet();
+            var stylesPart = doc.WorkbookPart.AddNewPart<WorkbookStylesPart>();
+            stylesPart.Stylesheet = new Stylesheet();
+
             var stylesSheet = doc.WorkbookPart.WorkbookStylesPart.Stylesheet;
             // add font
             var f1 = ExcelHelper.AddFontStyle(doc, 14, "Arial", "FFFFFFF0");
