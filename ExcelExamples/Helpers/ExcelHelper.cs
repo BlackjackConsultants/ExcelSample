@@ -228,6 +228,18 @@ namespace ExcelExamples.Helpers {
             return spreadsheetDocument;
         }
 
+
+        /// <summary>
+        /// loads a spreadsheetdocument.  use this so that you dont have to load streams each time. is faster.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="isEditable"></param>
+        /// <returns></returns>
+        public static SpreadsheetDocument CreateNewSpreadSheetDocument(string filename, bool isEditable) {
+            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(filename, SpreadsheetDocumentType.Workbook);
+            return spreadsheetDocument;
+        }
+
         private static Cell GetCell(Worksheet worksheet, string columnName, uint rowIndex) {
             Row row = GetRow(worksheet, rowIndex);
 

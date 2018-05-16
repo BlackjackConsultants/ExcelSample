@@ -42,7 +42,7 @@ namespace ExcelExamples {
 
         [TestMethod]
         public void CreateStyleAndAssociateIt() {
-            var doc = ExcelHelper.LoadSpreadSheetDocument("ExcelFileExtract\\test.xlsx", true);
+            var doc = ExcelHelper.CreateNewSpreadSheetDocument("output.xlsx", true);
             var stylesSheet = doc.WorkbookPart.WorkbookStylesPart.Stylesheet;
             // add font
             var f1 = ExcelHelper.AddFontStyle(doc, 14, "Arial", "FFFFFFF0");
