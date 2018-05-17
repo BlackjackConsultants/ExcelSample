@@ -42,38 +42,62 @@ namespace ExcelExamples.Helpers {
 
         public static int AddFontStyle(SpreadsheetDocument spreadsheetDocument, int fontSize, string fontName, string fontColor) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
+            if (styleSheet.Fonts == null) {
+                styleSheet.Fonts = new Fonts();
+            }
             var font = new Font(
                 new FontSize() { Val = fontSize },
                 new Color() { Rgb = new HexBinaryValue() { Value = fontColor } },
                 new FontName() { Val = fontName });
-            styleSheet.Fonts.Append(font);
+            styleSheet.Fonts.AppendChild(font);
             return Convert.ToInt32(styleSheet.Fonts.Elements<Font>().ToList().Count);
         }
 
-        public static int AddFillStyle(SpreadsheetDocument spreadsheetDocument, string fillBackgroundColorName, string fillForeColorName) {
+        public static int AddFillStyle(SpreadsheetDocument spreadsheetDocument, BackgroundColor fillBackgroundColor, ForegroundColor fillForegroundColor, EnumValue<PatternValues> patternType) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
-            var fillForegroundColor = new ForegroundColor() { Rgb = new HexBinaryValue() { Value = fillForeColorName } };
-            var fillBackgroundColor = new BackgroundColor() { Rgb = new HexBinaryValue() { Value = fillBackgroundColorName } };
-            var fill = new Fill(new PatternFill() {
-                PatternType = PatternValues.None,
-                BackgroundColor = fillBackgroundColor,
-                ForegroundColor = fillForegroundColor
+            if (styleSheet.Fills == null) {
+                styleSheet.Fills = new Fills();
+            }
+            var fill = new Fill(new PatternFill()
+            {
+                PatternType = patternType
             });
-            styleSheet.Fills.Append(fill);
+            if (fillForegroundColor != null)
+                fill.PatternFill.ForegroundColor = fillForegroundColor;
+            if (fillBackgroundColor != null)
+                fill.PatternFill.BackgroundColor = fillBackgroundColor;
+
+            styleSheet.Fills.AppendChild(fill);
             return Convert.ToInt32(styleSheet.Fills.Elements<Fill>().ToList().Count);
         }
 
         public static int AddBorderStyle(SpreadsheetDocument spreadsheetDocument) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
+            if (styleSheet.Borders == null) {
+                styleSheet.Borders = new Borders();
+            }
             var border = new Border(new LeftBorder(), new RightBorder(), new TopBorder(), new BottomBorder(), new DiagonalBorder());
-            styleSheet.Borders.Append(border);
+            styleSheet.Borders.AppendChild(border);
             return Convert.ToInt32(styleSheet.Borders.Elements<Border>().ToList().Count);
         }
 
-        public static int AddCellFormatStyle(SpreadsheetDocument spreadsheetDocument, int fontId, int fillId, int borderId) {
+        public static int AddCellFormatStyle(SpreadsheetDocument spreadsheetDocument, int formatId, int fontId, int borderId, int fillId, bool applyFill) {
             var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
-            var cellFormat = new CellFormat() { FontId = Convert.ToUInt32(fontId), FillId = Convert.ToUInt32(fillId), BorderId = Convert.ToUInt32(borderId) };
-            styleSheet.CellFormats.Append(cellFormat);
+            if (styleSheet.CellFormats == null) {
+                styleSheet.CellFormats = new CellFormats();
+            }
+            var cellFormat = new CellFormat() { FontId = Convert.ToUInt32(fontId), FillId = Convert.ToUInt32(fillId), BorderId = Convert.ToUInt32(borderId), ApplyFill = applyFill };
+            styleSheet.CellFormats.AppendChild(cellFormat);
+            return Convert.ToInt32(styleSheet.CellFormats.Elements<CellFormat>().ToList().Count);
+        }
+
+        public static int AddCellFormatStyle(SpreadsheetDocument spreadsheetDocument) {
+            var styleSheet = spreadsheetDocument.WorkbookPart.WorkbookStylesPart.Stylesheet;
+            if (styleSheet.CellFormats == null) {
+                styleSheet.CellFormats = new CellFormats();
+            }
+            var cellFormat = new CellFormat();
+            styleSheet.CellFormats.AppendChild(cellFormat);
             return Convert.ToInt32(styleSheet.CellFormats.Elements<CellFormat>().ToList().Count);
         }
 
@@ -94,7 +118,7 @@ namespace ExcelExamples.Helpers {
                             new PatternFill() { PatternType = PatternValues.None, BackgroundColor = fillBackgroundColor, ForegroundColor = fillForegroundColor }
                         )
                      ),
-                    new Borders(                
+                    new Borders(
                         new Border(
                             new LeftBorder(),
                             new RightBorder(),
@@ -222,7 +246,7 @@ namespace ExcelExamples.Helpers {
         /// <param name="filename"></param>
         /// <param name="isEditable"></param>
         /// <returns></returns>
-        public static SpreadsheetDocument LoadSpreadSheetDocument(string filename, bool isEditable) {
+        public static SpreadsheetDocument LoadSpreadsheetDocument(string filename, bool isEditable) {
             Stream stream = File.Open(filename, FileMode.Open);
             SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, isEditable);
             return spreadsheetDocument;
