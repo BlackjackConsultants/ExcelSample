@@ -252,6 +252,16 @@ namespace ExcelExamples.Helpers {
             return spreadsheetDocument;
         }
 
+        /// <summary>
+        /// loads a spreadsheet document from stream
+        /// </summary>
+        /// <param name="fileStream"></param>
+        /// <param name="isEditable"></param>
+        /// <returns></returns>
+        public static SpreadsheetDocument LoadSpreadsheetDocument(Stream fileStream, bool isEditable) {
+            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(fileStream, isEditable);
+            return spreadsheetDocument;
+        }
 
         /// <summary>
         /// loads a spreadsheetdocument.  use this so that you dont have to load streams each time. is faster.
