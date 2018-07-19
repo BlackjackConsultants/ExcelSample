@@ -7,4 +7,3 @@ C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\Exc
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.pdb
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.csproj.CoreCompileInputs.cache
 C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\bin\Debug\ExcelFileExtract\test.xlsx
-C:\Users\jorge\OneDrive\jorgeprg\csharp\examples\ExcelExamples\ExcelExamples\ExcelExamples\obj\Debug\ExcelExamples.csprojResolveAssemblyReference.cache

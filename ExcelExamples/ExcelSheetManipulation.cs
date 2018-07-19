@@ -10,6 +10,8 @@ using X14 = DocumentFormat.OpenXml.Office2010.Excel;
 namespace ExcelExamples {
     [TestClass]
     public class ExcelSheetManipulation {
+        const string tempfilename = "c:\\temp\\testing.xlsx";
+        const string filename = "ExcelFileExtract\\test.xlsx";
 
         [TestMethod]
         public void GetCellValueFromCellReference() {
@@ -31,11 +33,17 @@ namespace ExcelExamples {
 
         [TestMethod]
         public void HighlightCell() {
-            var spreadSheetDocument = ExcelHelper.LoadSpreadsheetDocument("ExcelFileExtract\\test.xlsx", true);
+            var spreadSheetDocument = ExcelHelper.LoadSpreadsheetDocument(filename, true);
             var value1 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "A1", 1);
             Assert.IsTrue(value1);
             ExcelHelper.HighlightCell(spreadSheetDocument, "testing", "B1", 2);
             var value2 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "B1", 2);
+            ExcelHelper.HighlightCell(spreadSheetDocument, "testing", "B3", 2);
+            var value3 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "B3", 2);
+            ExcelHelper.HighlightCell(spreadSheetDocument, "testing", "B4", 3);
+            var value4 = ExcelHelper.CellIsHighlighted(spreadSheetDocument, "testing", "B4", 3);
+            spreadSheetDocument.SaveAs(tempfilename);
+            System.Diagnostics.Process.Start(tempfilename);
             Assert.IsTrue(value2);
         }
 
