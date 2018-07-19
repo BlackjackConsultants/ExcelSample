@@ -35,6 +35,7 @@ namespace ExcelExamples.Helpers {
             if (wsPart != null) {
                 Worksheet worksheet = wsPart.Worksheet;
                 Cell cell = GetCell(worksheet, cellRefLetter, cellRefNumber);
+                System.Diagnostics.Debug.WriteLine("withIndex({0}) == cell.StyleIndex({1})", withIndex, cell.StyleIndex);
                 return withIndex == cell.StyleIndex;
             }
             return false;
